@@ -8,40 +8,104 @@
  */
 
 require_once 'Ear.php';
+require_once 'TypedNode.php';
 
 class Listen extends Ear
 {
     protected $values = [ 'state' => 1, 'act' => 2, 'matter' => 3, 'time' => 4 ];
 
 
-    protected $context = ['conversation'];
-
-    protected $mappingv1 = [
-        'state' => [
-            1 => ['i', 'am', 'myself', 'self', 'me?'],
-            2 => ['you', 'yours', 'yourself'],
-            4 => ['it', 'is', 'was', 'today'],
-            'act'   => [
-                1 => ['going', 'make', 'help']
-            ],
-            'observation' =>
-                [ 1 => ['windy']],
+    protected $context = [
+        'conversation' => [
+            'friendly' => 0x10011001,
+            'flirting' => 0x10F11F01,
+            'sex'      => 0x10FFFF01,
+            'learning' => 0x10000001,
+            'teaching' => 0x11000011
         ]
     ];
+
+    //when feeling uncertain and hearing an unfamiliar noise makes me nervous
+
+    /**
+     * @var int/*'listener' => [
+    'rep' => ['You', 'you'],
+    'val' => 0x00000001,
+    'typeof' => ['ACTOR','BEING'] //can put a checksum
+    ],*/
+
+    protected $pp = 0b0000000;
+
+    //protected $sports = new TypedNode('sports', '[]', 'x', 'y');
+
+    protected $friendly = [
+        'listener' => [
+            'rep' => ['You', 'you'],
+            'val' => 0x00000001,
+            'typeof' => ['ACTOR','BEING'] //can put a checksum
+        ],
+        'sender' => [
+            'rep' => ['I', 'i', 'i am'],
+            'val' => 0x10000000,
+            'typeof' => ['ACTOR', 'SELF']
+        ],
+      //  'sports' => $sports,
+        'weather' => [
+            'rep' => [
+                'rain' => [
+                    'val' => 0x111AA111,
+                    'concept' => [
+                        'water' => [
+                            'val' => 0x100AA001,
+                            'concept' => [
+                                'liquid',
+                                'chemistry',
+                                'rain',
+                                'homoliquidness' => [
+                                    'val' => 0,
+                                    'concepts' => [
+                                        'human' => [
+                                            'val' => 0x93, //evolved //value of human is not defined, should be a group effort if needed to be defined
+                                            'concepts' => [
+                                                'being' => [
+                                                    'val' => 0xFFFF ^ 0x6009,
+                                                    'concepts' => [
+                                                        'be' => ['val' => 0xFFFF,  'concepts' => null],
+                                                        'ing' => ['val' => 0x6009, 'concepts' => null]
+                                                    ],
+                                                ]
+                                            ],
+                                        'body',
+                                        'liquid',
+                                        '99%',
+                                        'hydration'
+                                    ]
+                                ]
+                            ]
+                        ],
+                        'clouds',
+                        'wet',
+                        'thunder',
+                        'lightning'
+                    ]
+                ],
+                'snow',
+                'wind'
+            ],
+            'val' => 0x000AA000
+        ]
+        ]
+    ];
+
+    protected $conversation = [
+        'conversation' => [
+            'friendly' => null
+        ]
+    ];
+
     //now we need to describe from the point of view
     //index 0 is receiver point of view, 1 is sender point of view
     protected $mapping = [
-        'conversation' => [
-            'listener' => [
-                'rep' => ['You', 'you'],
-                'val' => 0x00000001],
-            'sender' => [
-                'rep' => ['I', 'i', 'i am'],
-                'val' => 0x00000010],
-            'weather' => [
-                'rep' => ['rain', 'snow', 'wind'],
-                'val' => 0x00000100]
-        ],
         'person' => [
             'listner' => [
                 'rep' => ['i', 'am', 'myself', 'self', 'me?', 'me'],

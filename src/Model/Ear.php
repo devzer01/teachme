@@ -17,12 +17,28 @@ class Ear {
     {
         $words = [];
         if (str_word_count($message) === 1) {
-            $words[] = $message;
+            $words[] = $this->sanatize($message);
         } else {
             $words = explode(" ", $message);
+            $words = $this->bulkSanitize($words);
         }
 
         return $words;
+    }
+
+    public function bulkSanitize($words)
+    {
+        $clean = [];
+        foreach ($words as $word) {
+            $clean[] = $this->sanatize($word);
+        }
+
+        return $clean;
+    }
+
+    public function sanatize($word)
+    {
+        return preg_replace("/[^A-Za-z]+/", "", strtolower($word));
     }
 
 }

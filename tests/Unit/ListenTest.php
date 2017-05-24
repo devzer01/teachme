@@ -6,7 +6,7 @@
  * Time: 3:06 น.
  */
 
-require_once __DIR__ . '/../../src/Listen.php';
+require_once __DIR__ . '/../../src/Model/Listen.php';
 
 use PHPUnit\Framework\TestCase;
 
@@ -40,15 +40,15 @@ class ListenTest extends TestCase
     public function testlevels()
     {
         $listen = new Listen();
-        $this->assertEquals(['state', 'act', 'observation'], $listen->topLevel());
-        $this->assertEquals(['myself', 'theself', 'thyself',
-            'matter', 'life'], $listen->secondLevel('state'));
+        $this->assertEquals(['person', 'act', 'observation'], $listen->topLevel());
+        $this->assertEquals(['listner', 'sender', 'thyself',
+            'matter', 'life'], $listen->secondLevel('person'));
     }
 
     public function testKnowladge()
     {
         $listen = new Listen();
         $p = $listen->hear("is it windy today");
-        $this->assertEquals(0x01000000 | 0x01000000 | 0x02000000 | 0x020000,  $p );
+        $this->assertEquals(67239940,  $p );
     }
 }

@@ -76,6 +76,19 @@ $app->post('/words/{concept_id}', function($req, $res, $args) {
 });
 
 
+$app->get('/idealock', function ($request, $response, $args) use ($app) {
+    $idealock = new Idealock();
+    $records = $idealock->all();
+    return $response->withJson($records, 200);
+});
+
+$app->post('/idealock', function ($request, $response, $args) use ($app) {
+    $idealock = new Idealock();
+    $data = $request->getParsedBody()['data'];
+    $records = $idealock->save($data);
+    return $response->withJson($records, 200);
+});
+
 $app->get('/concept', function ($request, $response, $args) use ($app) {
     $concept = new Concept();
     $records = $concept->all();
